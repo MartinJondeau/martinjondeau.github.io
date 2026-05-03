@@ -8,6 +8,7 @@
   <meta property="og:title" content="Greeks — Master Finance" />
   <meta property="og:description" content="The finance learning platform built for serious learners. Master trading, private equity, macroeconomics, and more." />
   <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="assets/adaptive-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -129,16 +130,16 @@
     .nav-logo-mark {
       width: 36px;
       height: 36px;
-      background: var(--gold);
       border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
     }
 
-    .nav-logo-mark svg {
-      width: 20px;
-      height: 20px;
+    .nav-logo-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .nav-logo-text {
@@ -995,10 +996,7 @@
       <div class="nav-inner">
         <a class="nav-logo" href="#">
           <div class="nav-logo-mark">
-            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 5H9C6.8 5 5 6.8 5 9C5 11.2 6.8 13 9 13H11" stroke="#0A0A0A" stroke-width="2.2" stroke-linecap="round"/>
-              <path d="M10 13V17" stroke="#0A0A0A" stroke-width="2.2" stroke-linecap="round"/>
-            </svg>
+            <img src="assets/adaptive-icon.png" alt="Greeks logo" />
           </div>
           <span class="nav-logo-text">GREEKS</span>
         </a>
