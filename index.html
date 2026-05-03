@@ -1,88 +1,1451 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Greeks : Master Finance</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #0a0a0a;
-            color: #ffffff;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Greeks — Master Finance</title>
+  <meta name="description" content="Greeks is the finance learning platform built for serious learners. Master trading, private equity, macroeconomics, and more through precision-crafted content and real interview preparation." />
+  <meta property="og:title" content="Greeks — Master Finance" />
+  <meta property="og:description" content="The finance learning platform built for serious learners. Master trading, private equity, macroeconomics, and more." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .container {
-            padding: 20px;
-        }
+    :root {
+      --black:        #0A0A0A;
+      --black-2:      #111111;
+      --black-3:      #1A1A1A;
+      --black-4:      #222222;
+      --gold:         #D4AF37;
+      --gold-bright:  #FFD700;
+      --gold-light:   #F4E5B8;
+      --gold-dim:     rgba(212,175,55,0.12);
+      --gold-dim2:    rgba(212,175,55,0.06);
+      --white:        #FFFFFF;
+      --gray:         #999999;
+      --gray-dark:    #555555;
+      --border:       rgba(212,175,55,0.15);
+      --radius:       12px;
+      --radius-lg:    20px;
+    }
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-            color: #D4AF37; /* Or Greeks */
-        }
+    html { scroll-behavior: smooth; }
 
-        p {
-            font-size: 1.2rem;
-            color: #a0a0a0;
-            max-width: 600px;
-            line-height: 1.6;
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
 
-        .cta-button {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 15px 30px;
-            background-color: #D4AF37;
-            color: #000;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 50px;
-            transition: transform 0.2s, background-color 0.2s;
-        }
+    /* ─── UTILITIES ─────────────────────────────────────────────── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
 
-        .cta-button:hover {
-            transform: scale(1.05);
-            background-color: #f1c40f;
-        }
+    .gold { color: var(--gold); }
+    .gray { color: var(--gray); }
 
-        footer {
-            position: absolute;
-            bottom: 30px;
-            font-size: 0.9rem;
-        }
+    .label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
 
-        footer a {
-            color: #D4AF37;
-            text-decoration: none;
-            margin: 0 10px;
-        }
+    .section {
+      padding: 120px 0;
+    }
 
-        footer a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    .section-header {
+      margin-bottom: 64px;
+    }
+
+    .section-header .label {
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      max-width: 560px;
+    }
+
+    .section-title span {
+      color: var(--gold);
+    }
+
+    .section-sub {
+      margin-top: 16px;
+      font-size: 16px;
+      color: var(--gray);
+      max-width: 500px;
+      line-height: 1.7;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── NAV ───────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo-mark {
+      width: 36px;
+      height: 36px;
+      background: var(--gold);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-logo-mark svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .nav-logo-text {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      font-style: italic;
+      color: var(--white);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray);
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 24px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+      color: var(--black);
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 32px rgba(212,175,55,0.35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .btn-lg {
+      padding: 16px 36px;
+      font-size: 14px;
+      border-radius: 14px;
+    }
+
+    /* ─── HERO ──────────────────────────────────────────────────── */
+    .hero {
+      padding: 180px 0 120px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      background: var(--gold-dim2);
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .hero-title {
+      font-size: clamp(42px, 7vw, 80px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      max-width: 800px;
+      margin-bottom: 28px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: var(--gray);
+      max-width: 520px;
+      line-height: 1.75;
+      margin-bottom: 48px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin-top: 80px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hero-stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -1px;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--gray);
+      letter-spacing: 0.5px;
+    }
+
+    .hero-stat-sep {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+    }
+
+    /* ─── TICKER ────────────────────────────────────────────────── */
+    .ticker-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--black-2);
+      padding: 14px 0;
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 0;
+      width: max-content;
+      animation: ticker 28s linear infinite;
+    }
+
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 40px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gray-dark);
+      white-space: nowrap;
+    }
+
+    .ticker-item span {
+      color: var(--gold);
+    }
+
+    .ticker-sep {
+      color: var(--border);
+    }
+
+    /* ─── TOPICS GRID ───────────────────────────────────────────── */
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .topic-card {
+      background: var(--black-2);
+      padding: 32px;
+      transition: background 0.2s;
+      position: relative;
+    }
+
+    .topic-card:hover {
+      background: var(--black-3);
+    }
+
+    .topic-card:hover .topic-number {
+      color: var(--gold);
+    }
+
+    .topic-number {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--gray-dark);
+      margin-bottom: 16px;
+      transition: color 0.2s;
+    }
+
+    .topic-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+      letter-spacing: -0.2px;
+    }
+
+    .topic-desc {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    .topic-tag {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gray-dark);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* ─── QUIZ SECTION ──────────────────────────────────────────── */
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .quiz-card {
+      background: var(--black-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quiz-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .quiz-card:hover {
+      border-color: rgba(212,175,55,0.3);
+      transform: translateY(-2px);
+    }
+
+    .quiz-card:hover::before {
+      opacity: 1;
+    }
+
+    .quiz-difficulty {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .diff-beginner   { background: rgba(74,222,128,0.12); color: #4ADE80; }
+    .diff-intermediate { background: rgba(212,175,55,0.12); color: var(--gold); }
+    .diff-advanced   { background: rgba(239,68,68,0.12); color: #EF4444; }
+
+    .quiz-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+      letter-spacing: -0.2px;
+    }
+
+    .quiz-desc {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    /* ─── FEATURES (HOW IT WORKS) ───────────────────────────────── */
+    .features-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 20px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: default;
+    }
+
+    .feature-item:first-child {
+      padding-top: 0;
+    }
+
+    .feature-item:last-child {
+      border-bottom: none;
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--gold-dim);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .feature-text h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 6px;
+      letter-spacing: -0.2px;
+    }
+
+    .feature-text p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.65;
+    }
+
+    .feature-visual {
+      position: sticky;
+      top: 100px;
+    }
+
+    .phone-mockup {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      display: block;
+      background: var(--black-3);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 20px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    .phone-screen {
+      background: var(--black);
+      border-radius: 28px;
+      overflow: hidden;
+      aspect-ratio: 9/19;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-statusbar {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      flex-shrink: 0;
+    }
+
+    .phone-notch {
+      width: 100px;
+      height: 28px;
+      background: var(--black-3);
+      border-radius: 0 0 20px 20px;
+    }
+
+    .phone-content {
+      flex: 1;
+      padding: 20px 16px;
+      overflow: hidden;
+    }
+
+    .phone-card {
+      background: var(--black-3);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 12px;
+    }
+
+    .phone-card-label {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .phone-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .phone-card-body {
+      font-size: 11px;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    .phone-card-takeaway {
+      margin-top: 12px;
+      padding: 10px;
+      background: var(--gold-dim2);
+      border-radius: 8px;
+      font-size: 10px;
+      color: var(--gold-light);
+      line-height: 1.5;
+    }
+
+    .phone-stats-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .phone-stat-chip {
+      flex: 1;
+      background: var(--black-4);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    .phone-stat-chip-val {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--white);
+    }
+
+    .phone-stat-chip-lbl {
+      font-size: 9px;
+      color: var(--gray);
+      margin-top: 2px;
+    }
+
+    /* ─── PRICING ───────────────────────────────────────────────── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: var(--black-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px 36px;
+      position: relative;
+    }
+
+    .pricing-card.featured {
+      border-color: var(--gold);
+      background: linear-gradient(160deg, rgba(212,175,55,0.07), var(--black-3));
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+      color: var(--black);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .pricing-name {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 20px;
+    }
+
+    .pricing-price {
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .pricing-price sup {
+      font-size: 24px;
+      letter-spacing: 0;
+      font-weight: 700;
+      vertical-align: super;
+    }
+
+    .pricing-period {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+
+    .pricing-savings {
+      display: inline-block;
+      padding: 3px 10px;
+      background: rgba(212,175,55,0.12);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      margin-bottom: 32px;
+    }
+
+    .pricing-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+
+    .pricing-feature::before {
+      content: '';
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--gold-dim);
+      border: 1px solid rgba(212,175,55,0.3);
+      flex-shrink: 0;
+      margin-top: 2px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpolyline points='3,8 6.5,11.5 13,5' fill='none' stroke='%23D4AF37' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: cover;
+    }
+
+    .pricing-note {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 13px;
+      color: var(--gray-dark);
+    }
+
+    .pricing-note a {
+      color: var(--gray);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* ─── TESTIMONIALS ──────────────────────────────────────────── */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .testimonial-card {
+      background: var(--black-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+
+    .testimonial-stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 16px;
+    }
+
+    .star {
+      width: 12px;
+      height: 12px;
+      background: var(--gold);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+
+    .testimonial-text {
+      font-size: 14px;
+      color: var(--white);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+
+    .testimonial-author {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .testimonial-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .testimonial-role {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    /* ─── CTA ───────────────────────────────────────────────────── */
+    .cta-section {
+      padding: 120px 0;
+    }
+
+    .cta-box {
+      background: var(--black-2);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 80px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(212,175,55,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-title {
+      font-size: clamp(30px, 5vw, 52px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .cta-sub {
+      font-size: 16px;
+      color: var(--gray);
+      max-width: 440px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .cta-store-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 26px;
+      background: var(--white);
+      color: var(--black);
+      border-radius: 14px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .store-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(255,255,255,0.12);
+    }
+
+    .store-btn-label {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .store-btn-sub {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      opacity: 0.6;
+    }
+
+    .store-btn-name {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    /* ─── FOOTER ────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--gray-dark);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: var(--gray-dark);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--gray);
+    }
+
+    /* ─── RESPONSIVE ────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .features-layout { grid-template-columns: 1fr; gap: 48px; }
+      .feature-visual { display: none; }
+      .quiz-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .section { padding: 80px 0; }
+      .hero { padding: 140px 0 80px; }
+      .hero-meta { gap: 20px; }
+    }
+
+    @media (max-width: 600px) {
+      .quiz-grid { grid-template-columns: 1fr; }
+      .topics-grid { grid-template-columns: 1fr; }
+      .cta-box { padding: 48px 24px; }
+      .hero-title { letter-spacing: -1.5px; }
+    }
+  </style>
 </head>
 <body>
 
+  <!-- NAV -->
+  <nav>
     <div class="container">
-        <h1>GREEKS</h1>
-        <p>Maîtrisez la finance, dominez les marchés. <br> L'application d'éducation financière nouvelle génération.</p>
-        
-        <a href="https://apps.apple.com/fr/app/greeks-master-finance/id6760118053" class="cta-button">Télécharger sur l'App Store</a>
+      <div class="nav-inner">
+        <a class="nav-logo" href="#">
+          <div class="nav-logo-mark">
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 5H9C6.8 5 5 6.8 5 9C5 11.2 6.8 13 9 13H11" stroke="#0A0A0A" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M10 13V17" stroke="#0A0A0A" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="nav-logo-text">GREEKS</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#topics">Topics</a></li>
+          <li><a href="#quiz">Quiz</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+        <a class="btn btn-gold" href="https://apps.apple.com/fr/app/greeks-master-finance/id6760118053" target="_blank">Download Free</a>
+      </div>
     </div>
+  </nav>
 
-    <footer>
-        <a href="https://docs.google.com/document/d/1800kyoww8u68d0NZ1pbxylLxKCQsqpbHev_X8Cas2JA/view" target="_blank">Politique de Confidentialité</a>
-    </footer>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-eyebrow">Now available on the App Store</div>
+      <h1 class="hero-title">
+        The discipline of<br /><em>serious finance</em><br />in your pocket.
+      </h1>
+      <p class="hero-sub">
+        Greeks is a precision-crafted learning platform for finance professionals, students, and career changers. Master trading, private equity, macroeconomics, and more — one focused session at a time.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-gold btn-lg" href="https://apps.apple.com/fr/app/greeks-master-finance/id6760118053" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          Download on App Store
+        </a>
+        <a class="btn btn-outline btn-lg" href="#topics">Explore content</a>
+      </div>
+
+      <div class="hero-meta">
+        <div class="hero-stat">
+          <span class="hero-stat-value">1,300+</span>
+          <span class="hero-stat-label">Learning cards</span>
+        </div>
+        <div class="hero-stat-sep"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">800+</span>
+          <span class="hero-stat-label">Quiz questions</span>
+        </div>
+        <div class="hero-stat-sep"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">11</span>
+          <span class="hero-stat-label">Finance topics</span>
+        </div>
+        <div class="hero-stat-sep"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">Free</span>
+          <span class="hero-stat-label">to start</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <span class="ticker-item"><span>Trading</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Private Equity</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Macroeconomics</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Corporate Finance</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Quantitative Math</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Behavioral Finance</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Financial History</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Interview Prep</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Book Extracts</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Technical Analysis</span> <span class="ticker-sep">/</span></span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item"><span>Trading</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Private Equity</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Macroeconomics</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Corporate Finance</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Quantitative Math</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Behavioral Finance</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Financial History</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Interview Prep</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Book Extracts</span> <span class="ticker-sep">/</span></span>
+      <span class="ticker-item"><span>Technical Analysis</span> <span class="ticker-sep">/</span></span>
+    </div>
+  </div>
+
+  <!-- TOPICS -->
+  <section class="section" id="topics">
+    <div class="container">
+      <div class="section-header">
+        <span class="label">Learning Topics</span>
+        <h2 class="section-title">Every field. <span>Serious depth.</span></h2>
+        <p class="section-sub">Each topic is built around dense, practitioner-grade content — not simplified summaries. Designed for people who want to actually understand finance.</p>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div class="topic-number">01</div>
+          <div class="topic-name">Trading & Markets</div>
+          <div class="topic-desc">Order types, market microstructure, derivatives mechanics, and trading strategy fundamentals.</div>
+          <span class="topic-tag">Intermediate</span>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">02</div>
+          <div class="topic-name">Private Equity</div>
+          <div class="topic-desc">LBO mechanics, fund structures, carry and waterfalls, due diligence, and deal sourcing.</div>
+          <span class="topic-tag">Advanced</span>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">03</div>
+          <div class="topic-name">Macroeconomics</div>
+          <div class="topic-desc">Monetary policy, central bank frameworks, global capital flows, and business cycle dynamics.</div>
+          <span class="topic-tag">Intermediate</span>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">04</div>
+          <div class="topic-name">Corporate Finance</div>
+          <div class="topic-desc">Valuation methodologies, M&A deal structures, capital structure theory, and financial modeling.</div>
+          <span class="topic-tag">Beginner</span>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">05</div>
+          <div class="topic-name">Quantitative Math</div>
+          <div class="topic-desc">Probability, stochastic calculus, options pricing models, and statistical methods in finance.</div>
+          <span class="topic-tag">Advanced</span>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">06</div>
+          <div class="topic-name">Financial History</div>
+          <div class="topic-desc">Market crises, legendary investors, historic bubbles, and the events that shaped modern finance.</div>
+          <span class="topic-tag">Beginner</span>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">07</div>
+          <div class="topic-name">Financial Psychology</div>
+          <div class="topic-desc">Cognitive biases, behavioral patterns, investor psychology, and decision-making under uncertainty.</div>
+          <span class="topic-tag">Intermediate</span>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">08</div>
+          <div class="topic-name">Trading Strategies</div>
+          <div class="topic-desc">Technical analysis, chart patterns, momentum strategies, and systematic trading frameworks.</div>
+          <span class="topic-tag">Intermediate</span>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">09</div>
+          <div class="topic-name">Book Extracts</div>
+          <div class="topic-desc">Core insights from The Intelligent Investor, Reminiscences of a Stock Operator, Liar's Poker, and more.</div>
+          <span class="topic-tag">All levels</span>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">10</div>
+          <div class="topic-name">Interview Prep</div>
+          <div class="topic-desc">Technical and behavioral questions from top investment banks, PE firms, and hedge funds.</div>
+          <span class="topic-tag">Advanced</span>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">11</div>
+          <div class="topic-name">Pure Finance</div>
+          <div class="topic-desc">Core financial theory: time value of money, risk/return, portfolio construction, and asset classes.</div>
+          <span class="topic-tag">Beginner</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- QUIZ -->
+  <section class="section" id="quiz">
+    <div class="container">
+      <div class="section-header">
+        <span class="label">Interview Preparation</span>
+        <h2 class="section-title">Quiz yourself until <span>it becomes instinct.</span></h2>
+        <p class="section-sub">800+ questions across 9 categories, calibrated by difficulty. Every answer comes with a detailed explanation — not just a verdict.</p>
+      </div>
+      <div class="quiz-grid">
+        <div class="quiz-card">
+          <span class="quiz-difficulty diff-intermediate">Intermediate</span>
+          <div class="quiz-name">Trading & Markets</div>
+          <div class="quiz-desc">Options Greeks, market microstructure, circuit breakers, and execution mechanics.</div>
+        </div>
+        <div class="quiz-card">
+          <span class="quiz-difficulty diff-advanced">Advanced</span>
+          <div class="quiz-name">Quantitative Finance</div>
+          <div class="quiz-desc">Black-Scholes, Monte Carlo, probability theory, and statistical arbitrage.</div>
+        </div>
+        <div class="quiz-card">
+          <span class="quiz-difficulty diff-beginner">Beginner</span>
+          <div class="quiz-name">Corporate Finance</div>
+          <div class="quiz-desc">DCF, LBO, M&A accretion/dilution, WACC, and capital structure decisions.</div>
+        </div>
+        <div class="quiz-card">
+          <span class="quiz-difficulty diff-advanced">Advanced</span>
+          <div class="quiz-name">Private Equity</div>
+          <div class="quiz-desc">IRR, MOIC, waterfalls, carried interest, deal structures, and fund mechanics.</div>
+        </div>
+        <div class="quiz-card">
+          <span class="quiz-difficulty diff-intermediate">Intermediate</span>
+          <div class="quiz-name">Economics & Macro</div>
+          <div class="quiz-desc">Taylor Rule, yield curve dynamics, monetary transmission, and global trade flows.</div>
+        </div>
+        <div class="quiz-card">
+          <span class="quiz-difficulty diff-beginner">Beginner</span>
+          <div class="quiz-name">Financial History</div>
+          <div class="quiz-desc">1929, Black Monday, the Dot-com crash, 2008, and the investors who called it.</div>
+        </div>
+        <div class="quiz-card">
+          <span class="quiz-difficulty diff-intermediate">Intermediate</span>
+          <div class="quiz-name">Behavioral Finance</div>
+          <div class="quiz-desc">Loss aversion, anchoring, herding, overconfidence, and their market implications.</div>
+        </div>
+        <div class="quiz-card">
+          <span class="quiz-difficulty diff-advanced">Advanced</span>
+          <div class="quiz-name">Brain Teasers</div>
+          <div class="quiz-desc">Logic puzzles and quantitative brainteasers from real Goldman, Morgan Stanley, and Citadel interviews.</div>
+        </div>
+        <div class="quiz-card">
+          <span class="quiz-difficulty diff-intermediate">Intermediate</span>
+          <div class="quiz-name">Portfolio Management</div>
+          <div class="quiz-desc">Asset allocation, Sharpe ratio, factor investing, and risk-adjusted return frameworks.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how">
+    <div class="container">
+      <div class="features-layout">
+        <div>
+          <div class="section-header">
+            <span class="label">How it works</span>
+            <h2 class="section-title">Built around <span>focused learning.</span></h2>
+            <p class="section-sub">No video courses. No passive watching. Greeks is designed for active recall — the method shown to produce lasting retention.</p>
+          </div>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+              </div>
+              <div class="feature-text">
+                <h4>Swipe-based card learning</h4>
+                <p>Each card distills one concept into a precise, practitioner-grade explanation. Swipe through at your own pace — no chapters, no videos, no friction.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+              </div>
+              <div class="feature-text">
+                <h4>Daily streak system</h4>
+                <p>Build consistency through a streak that tracks your daily learning. Reach milestones at 7, 30, 100, and 365 days and earn PnL bonuses.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+              </div>
+              <div class="feature-text">
+                <h4>Adaptive quiz engine</h4>
+                <p>Questions you answer correctly are retired. New questions surface as you improve. Your quiz pool evolves with your knowledge level.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <div class="feature-text">
+                <h4>PnL performance tracking</h4>
+                <p>Every correct answer moves your PnL score. Compete on the global leaderboard and track your progression from Intern to Legend.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div class="feature-text">
+                <h4>Personalized topic selection</h4>
+                <p>Choose the topics that match your goals — whether you are preparing for an investment banking interview or building a systematic trading strategy.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phone mockup -->
+        <div class="feature-visual">
+          <div class="phone-mockup">
+            <div class="phone-screen">
+              <div class="phone-statusbar">
+                <div class="phone-notch"></div>
+              </div>
+              <div class="phone-content">
+                <div class="phone-card">
+                  <div class="phone-card-label">Private Equity — Advanced</div>
+                  <div class="phone-card-title">The LBO: Leveraged Buyout</div>
+                  <div class="phone-card-body">A leveraged buyout uses debt to acquire a company — typically 60–70% debt, 30–40% equity. The target's cash flows service the debt. As debt pays down, equity value grows mechanically.</div>
+                  <div class="phone-card-takeaway">Key takeaway: Leverage amplifies equity returns by reducing the equity contribution required at entry.</div>
+                </div>
+                <div class="phone-stats-row">
+                  <div class="phone-stat-chip">
+                    <div class="phone-stat-chip-val" style="color: var(--gold);">14</div>
+                    <div class="phone-stat-chip-lbl">Day Streak</div>
+                  </div>
+                  <div class="phone-stat-chip">
+                    <div class="phone-stat-chip-val">+240</div>
+                    <div class="phone-stat-chip-lbl">PnL Today</div>
+                  </div>
+                  <div class="phone-stat-chip">
+                    <div class="phone-stat-chip-val">87%</div>
+                    <div class="phone-stat-chip-lbl">Win Rate</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- TESTIMONIALS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="label">Reviews</span>
+        <h2 class="section-title">What learners <span>say.</span></h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+          </div>
+          <p class="testimonial-text">"I used Greeks every morning for 6 weeks before my PE interviews. The LBO and waterfall cards alone were worth it — the explanations are sharper than most textbooks."</p>
+          <div class="testimonial-author">
+            <span class="testimonial-name">Thomas R.</span>
+            <span class="testimonial-role">Private Equity Associate</span>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+          </div>
+          <p class="testimonial-text">"The quiz format forces you to actually recall the material, not just read it. After two months, I noticed a real difference in how quickly I could reason through technical questions."</p>
+          <div class="testimonial-author">
+            <span class="testimonial-name">Camille D.</span>
+            <span class="testimonial-role">MSc Finance Student, HEC Paris</span>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+          </div>
+          <p class="testimonial-text">"Most finance apps talk down to you. Greeks doesn't. The macro and quantitative content is genuinely rigorous — exactly what I needed transitioning from engineering into finance."</p>
+          <div class="testimonial-author">
+            <span class="testimonial-name">Alex M.</span>
+            <span class="testimonial-role">Quant Analyst</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PRICING -->
+  <section class="section" id="pricing">
+    <div class="container">
+      <div class="section-header" style="text-align:center; max-width:100%;">
+        <span class="label" style="display:block; margin-bottom:16px;">Pricing</span>
+        <h2 class="section-title" style="max-width:100%; text-align:center;">Start free. <span>Go further with Premium.</span></h2>
+        <p class="section-sub" style="margin: 16px auto 0; text-align:center;">Full access to all content, unlimited quizzes, and no daily limits. Cancel anytime.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-name">Monthly</div>
+          <div class="pricing-price"><sup>$</sup>4.99</div>
+          <div class="pricing-period">per month, billed monthly</div>
+          <div style="height: 28px;"></div>
+          <ul class="pricing-features">
+            <li class="pricing-feature">Unlimited learning time</li>
+            <li class="pricing-feature">Unlimited daily quizzes</li>
+            <li class="pricing-feature">All 11 topics unlocked</li>
+            <li class="pricing-feature">Advanced analytics</li>
+            <li class="pricing-feature">Global leaderboard</li>
+            <li class="pricing-feature">Cancel anytime</li>
+          </ul>
+          <a class="btn btn-outline" style="width:100%; justify-content:center;" href="https://apps.apple.com/fr/app/greeks-master-finance/id6760118053" target="_blank">Get started</a>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-badge">Save 42%</div>
+          <div class="pricing-name">Annual</div>
+          <div class="pricing-price"><sup>$</sup>34.99</div>
+          <div class="pricing-period">per year, billed annually</div>
+          <div class="pricing-savings">$2.92 / month</div>
+          <ul class="pricing-features">
+            <li class="pricing-feature">Everything in Monthly</li>
+            <li class="pricing-feature">Priority support</li>
+            <li class="pricing-feature">Early access to new topics</li>
+            <li class="pricing-feature">Exclusive interview prep content</li>
+            <li class="pricing-feature">3-day free trial included</li>
+          </ul>
+          <a class="btn btn-gold" style="width:100%; justify-content:center;" href="https://apps.apple.com/fr/app/greeks-master-finance/id6760118053" target="_blank">Start free trial</a>
+        </div>
+      </div>
+      <p class="pricing-note">
+        Payment processed securely by Apple. By subscribing you agree to our
+        <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank">Terms of Use</a>
+        and
+        <a href="https://docs.google.com/document/d/e/2PACX-1vTQGxyAcYcIE0ElmVRMyHk01KKPN-ghN8uKPdl1qtBl3khQ8wzzw0IrsAHnOMFAoWniJpFeKOoPwJ0M/pub" target="_blank">Privacy Policy</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box">
+        <span class="label" style="display:block; margin-bottom:20px;">Available now</span>
+        <h2 class="cta-title">The market rewards<br /><span style="color:var(--gold)">preparation.</span></h2>
+        <p class="cta-sub">Join learners who treat their financial education with the same seriousness they bring to their work.</p>
+        <div class="cta-store-row">
+          <a class="store-btn" href="https://apps.apple.com/fr/app/greeks-master-finance/id6760118053" target="_blank">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="store-btn-label">
+              <span class="store-btn-sub">Download on the</span>
+              <span class="store-btn-name">App Store</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-copy">© 2026 Greeks. All rights reserved.</span>
+        <div class="footer-links">
+          <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank">Terms of Use</a>
+          <a href="https://docs.google.com/document/d/e/2PACX-1vTQGxyAcYcIE0ElmVRMyHk01KKPN-ghN8uKPdl1qtBl3khQ8wzzw0IrsAHnOMFAoWniJpFeKOoPwJ0M/pub" target="_blank">Privacy Policy</a>
+          <a href="https://apps.apple.com/fr/app/greeks-master-finance/id6760118053" target="_blank">App Store</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
 </body>
 </html>
